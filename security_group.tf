@@ -23,7 +23,7 @@ resource "aws_security_group" "sg_elb" {
   }
 }
 
-# SG for server2
+# SG for server2 - Amazon Linux - Web
 resource "aws_security_group" "sg_server2" {
   name   = "sg_server2"
   vpc_id = module.vpc.vpc_id
@@ -35,6 +35,13 @@ resource "aws_security_group" "sg_server2" {
     cidr_blocks = ["192.168.0.0/25"]
   }
 
+  ingress {
+    from_port   = 22 # SSH
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # Whitelist source IP here
+  }
+
   egress {
     from_port = 0
     to_port = 0
@@ -43,7 +50,7 @@ resource "aws_security_group" "sg_server2" {
   }
 }
 
-# SG for server3
+# SG for server3 - Windows Server 2016 - MSSQL Database
 resource "aws_security_group" "sg_server3" {
   name   = "sg_server3"
   vpc_id = module.vpc.vpc_id
@@ -53,6 +60,13 @@ resource "aws_security_group" "sg_server3" {
     to_port = 1433
     protocol = "tcp"
     cidr_blocks = ["192.168.1.0/25"]
+  }
+
+  ingress {
+    from_port   = 3389 # RDP
+    to_port     = 3389
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # Whitelist source IP here
   }
 
   egress {

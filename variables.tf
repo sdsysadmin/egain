@@ -13,18 +13,15 @@ variable "elb_number_of_instances" {
   default = 1
 }
 
-variable "number_of_server2" {
-  default = 1
-}
-
 variable "server2_instance_type" {
   default = "t2.micro"
 }
 
-variable "number_of_server3" {
-  default = 1
+variable "server3_instance_type" {
+  default = "t3.xlarge"
 }
 
-variable "server3_instance_type" {
-  default = "t2.micro"
+# AWS AMI ID for Microsoft SQL Server 2019 Standard on Windows Server 2016
+variable "server3_ami_id" {
+  default = "ami-0529c43552e85a846"
 }

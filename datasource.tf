@@ -1,6 +1,8 @@
 # //////////////////////////////
 # DATA
 # //////////////////////////////
+
+# DS for Amazon Linux web server
 data "aws_ami" "aws-linux" {
   most_recent = true
   owners      = ["amazon"]
@@ -20,3 +22,4 @@ data "aws_ami" "aws-linux" {
     values = ["hvm"]
   }
 }
+

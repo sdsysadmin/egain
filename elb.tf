@@ -2,7 +2,7 @@
 # ELB
 ######
 
-# SSL Certificate
+# SSL certificate for HTTPS listener 
 resource "aws_iam_server_certificate" "tf_test_cert" {
   name_prefix      = "tf_test_cert"
   certificate_body = file("app.sdenterprise.com-cert.pem")
@@ -14,35 +14,35 @@ resource "aws_iam_server_certificate" "tf_test_cert" {
 }
 
 module "elb" {
-  source = "terraform-aws-modules/elb/aws"
+  source          = "terraform-aws-modules/elb/aws"
 
-  name = "tf_test_elb"
+  name            = "tf-test-elb"
 
-  subnets         = module.vpc.public_subnets[*]
+  subnets         = [element(module.vpc.public_subnets, 0)]
   security_groups = [aws_security_group.sg_elb.id]
   internal        = false
 
   listener = [
     {
       instance_port     = "8800"
-      instance_protocol = "TCP"
+      instance_protocol = "HTTP"
       lb_port           = "443"
       lb_protocol       = "HTTPS"
       ssl_certificate_id = aws_iam_server_certificate.tf_test_cert.arn
-    }
+    },
   ]
 
   health_check = {
-    target              = "TCP:8800/"
+    target              = "HTTP:8800/"
     interval            = 30
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 5
   }
 
-  # ELB attachments
+  # ELB attachments -- server2
   number_of_instances = var.elb_number_of_instances
-  instances           = aws_instance.server2.id
+  instances           = module.ec2_instances.id
 
   tags = {
     Name  = "Terraform Test ELB"
