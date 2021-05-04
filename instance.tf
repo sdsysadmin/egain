@@ -42,8 +42,8 @@ module "ec2_instances" {
 
 # Server3 - Windows Server - MSSQL Database
 resource "aws_instance" "server3" {
-  name                   = "server3"
   ami                    = var.server3_ami_id
+  key_name               = aws_key_pair.server_pub_key.id
   subnet_id              = module.vpc.database_subnets[0]
   instance_type          = var.server3_instance_type
   vpc_security_group_ids = [aws_security_group.sg_server3.id]
@@ -53,5 +53,9 @@ resource "aws_instance" "server3" {
       volume_type           = "gp2"
       volume_size           = 8
       delete_on_termination = true
+  }
+  tags = {
+    "Name"  = "Server3"
+    "Owner" = "Terraform"
   }
 }
