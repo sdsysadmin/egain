@@ -4,12 +4,12 @@
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
   name = "tf_test_vpc"
-  cidr = "192.168.0.0/22"
+  cidr = var.vpc_cidr
 
-  azs              = ["eu-west-1a", "eu-west-1b"]
-  public_subnets   = ["192.168.0.0/25"]
-  private_subnets  = ["192.168.1.0/25"]
-  database_subnets = ["192.168.2.0/25", "192.168.3.0/25"]
+  azs              = [var.availability_zone.az1, var.availability_zone.az2]
+  public_subnets   = [var.dmz_subnet_cidr]
+  private_subnets  = [var.private_subnet_cidr]
+  database_subnets = [var.database_subnet_cidr.subnet1, var.database_subnet_cidr.subnet2]
   
   enable_nat_gateway = true
   single_nat_gateway = true

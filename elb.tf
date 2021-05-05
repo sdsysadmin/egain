@@ -45,7 +45,7 @@ module "elb" {
   instances           = module.ec2_instances.id
 
   tags = {
-    Name  = "Terraform Test ELB"
-    Owner = "sdinh"
+    Name  = "Test ELB"
+    Owner = "Terraform"
   }
 }

@@ -40,6 +40,7 @@ resource "aws_security_group" "sg_server2" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] # Whitelist source IP here
+    description = "Allow SSH"
   }
 
   egress {
@@ -67,6 +68,7 @@ resource "aws_security_group" "sg_server3" {
     to_port     = 3389
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] # Whitelist source IP here
+    description = "Allow RDP"
   }
 
   egress {
